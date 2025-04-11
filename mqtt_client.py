@@ -2,6 +2,10 @@ import paho.mqtt.client as mqtt
 import json
 import subprocess
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Thông tin MQTT broker từ biến môi trường
 MQTT_BROKER = os.environ.get("MQTT_BROKER", "45.252.249.222")
