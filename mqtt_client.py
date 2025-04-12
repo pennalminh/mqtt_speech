@@ -15,17 +15,20 @@ load_dotenv()
 # Thông tin MQTT broker từ biến môi trường
 MQTT_BROKER = os.environ.get("MQTT_BROKER", "45.252.249.222")
 MQTT_PORT = int(os.environ.get("MQTT_PORT", 1883))
-MQTT_TOPIC = os.environ.get("MQTT_TOPIC", "cw/speech/CW001")
+MQTT_TOPIC = os.environ.get("MQTT_TOPIC", "cw/speech/CW005")
 
 def play_text_with_edge(text):
     command = f'edge-playback --rate=-20% --voice vi-VN-HoaiMyNeural --text "{text}"'
     print(f"Chạy lệnh: {command}")
     subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
 
-def repeat_play(audio_file, max_repeat=5):
+def repeat_play(script, max_repeat=5, isAudio=True):
     count = 0
     while not stop_event.is_set() and count < max_repeat:
-        subprocess.run(["mpv", audio_file])
+        if isAudio:
+            subprocess.run(["mpv", script])
+        else:
+            play_text_with_edge(script)
         count += 1
         time.sleep(1)
 
@@ -52,14 +55,17 @@ def on_message(client, userdata, msg):
 
     stop_event.clear()
 
+    print(message_json)
+
     if message_json["text"] == "monitor_1":
         repeat_thread = threading.Thread(target=repeat_play, args=("monitor_1.mp3",5))
         repeat_thread.start()
     elif message_json["text"] == "monitor_4":
         repeat_thread = threading.Thread(target=repeat_play, args=("monitor_4.mp3",5))
         repeat_thread.start()
-    elif message_json["isRepeat"] == True:
-        repeat_thread = threading.Thread(target=repeat_play, args=(message_json["text"],5))
+    elif "isRepeat" in message_json and message_json["isRepeat"] == True:
+        
+        repeat_thread = threading.Thread(target=repeat_play, args=(message_json["text"],3, False))
         repeat_thread.start()
     else:
         # Nếu không phải monitor_3 hoặc monitor_4, thì phát 1 lần
