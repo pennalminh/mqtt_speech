@@ -58,14 +58,15 @@ def on_message(client, userdata, msg):
     print(message_json)
 
     if message_json["text"] == "monitor_1":
-        repeat_thread = threading.Thread(target=repeat_play, args=("monitor_1.mp3",10))
+        repeat_thread = threading.Thread(target=repeat_play, args=("monitor_1.mp3",50))
         repeat_thread.start()
     elif message_json["text"] == "monitor_3":
-        repeat_thread = threading.Thread(target=repeat_play, args=("monitor_3.mp3",10))
+        repeat_thread = threading.Thread(target=repeat_play, args=("monitor_3.mp3",50))
         repeat_thread.start()    
     elif message_json["text"] == "monitor_4":
-        repeat_thread = threading.Thread(target=repeat_play, args=("monitor_4.mp3",10))
-        repeat_thread.start()
+        # repeat_thread = threading.Thread(target=repeat_play, args=("monitor_4.mp3",50))
+        # repeat_thread.start()
+        return
     elif message_json["text"] == "monitor_6":
         repeat_thread = threading.Thread(target=repeat_play, args=("monitor_6.mp3",10))
         repeat_thread.start()
