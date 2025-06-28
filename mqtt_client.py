@@ -70,7 +70,7 @@ def on_message(client, userdata, msg):
         repeat_thread = threading.Thread(target=repeat_play, args=("monitor_6.mp3",10))
         repeat_thread.start()
     elif message_json["text"] == "get_out":
-        repeat_thread = threading.Thread(target=repeat_play, args=("get_out.mp3",10))
+        repeat_thread = threading.Thread(target=repeat_play, args=("get_out.mp3",5))
         repeat_thread.start()
     elif "isRepeat" in message_json and message_json["isRepeat"] == True:
         repeat_thread = threading.Thread(target=repeat_play, args=(message_json["text"],3, False))
