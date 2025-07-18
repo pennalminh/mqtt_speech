@@ -35,7 +35,7 @@ def repeat_play(script, max_repeat=5, isAudio=True):
 # Callback khi kết nối thành công với MQTT
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
-        print("Kết nối MQTT thành công")
+        print(f"Kết nối MQTT thành công:{MQTT_BROKER}:{MQTT_PORT} {MQTT_TOPIC}")
         client.subscribe(MQTT_TOPIC)
     else:
         print(f"Kết nối MQTT thất bại với mã lỗi {rc}")
