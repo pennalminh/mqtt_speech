@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 repeat_thread = None
 stop_event = threading.Event()
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Thông tin MQTT broker từ biến môi trường
 MQTT_BROKER = os.environ.get("MQTT_BROKER", "45.252.249.222")
 MQTT_PORT = int(os.environ.get("MQTT_PORT", 1883))
 MQTT_TOPIC = os.environ.get("MQTT_TOPIC", "cw/speech/CW005")
+MQTT_USERNAME = os.environ.get("MQTT_USERNAME", "username")
+MQTT_PASSWORD = os.environ.get("MQTT_PASSWORD", "password")
 
 def play_text_with_edge(text):
     command = f'edge-playback --rate=-20% --voice vi-VN-HoaiMyNeural --text "{text}"'
@@ -91,6 +91,7 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 # Kết nối tới MQTT broker
+client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
 client.connect(MQTT_BROKER, MQTT_PORT, 60)
 
 # Vòng lặp chính để giữ kết nối
